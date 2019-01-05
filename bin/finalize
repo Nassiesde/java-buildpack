@@ -28,7 +28,7 @@ Dir.new(app_dir).each {|file| puts file }
 require 'zlib' 
 require 'open-uri'
 
-uri = "www.somedomain.com/filename.gz"
+uri = "https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz"
 source = open(uri)
 gz = Zlib::GzipReader.new(source) 
 result = gz.read
