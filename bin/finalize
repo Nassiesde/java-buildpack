@@ -26,15 +26,6 @@ app_dir = ARGV[0]
 
 JavaBuildpack::Buildpack.with_buildpack(app_dir, 'Finalize failed with exception %s', &:compile)
 
-echo "Start Installing Tesseract-OCR binaries"
-
-build_path = ARGV[0]
-cache_path = ARGV[1]
-deps_path = ARGV[2]
-index = ARGV[3]
-
-echo $target
-for file in "$build_path"/*
-do
-  echo "$file"
-done
+app_dir = ARGV[0]
+puts "Installing Tesseract-OCR binaries"
+puts app_dir
