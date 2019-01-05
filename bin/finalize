@@ -16,31 +16,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+$stdout.sync = true
+$stderr.sync = true
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
+
 app_dir = ARGV[0]
 puts "Installing Tesseract-OCR binaries"
 puts app_dir
 Dir.new(app_dir).each {|file| puts file }
 
-
-$stdout.sync = true
-$stderr.sync = true
-$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
-
+require 'zlib' 
 require 'open-uri'
-require 'zlib'
 
-open('tarball.tar', 'w') do |local_file|
-  open('http://github.com/jashkenas/coffee-script/tarball/master/tarball.tar.gz') do |remote_file|
-    local_file.write(Zlib::GzipReader.new(remote_file).read)
-  end
-end
+uri = "www.somedomain.com/filename.gz"
+source = open(uri)
+gz = Zlib::GzipReader.new(source) 
+result = gz.read
+puts result
+puts 'ciao'
+puts app_dir
 
-Dir.new(app_dir).each {|file| puts file }
 
 
-#require 'java_buildpack/buildpack'
 
-#app_dir = ARGV[0]
 
-#JavaBuildpack::Buildpack.with_buildpack(app_dir, 'Finalize failed with exception %s', &:compile)
+require 'java_buildpack/buildpack'
+
+app_dir = ARGV[0]
+
+JavaBuildpack::Buildpack.with_buildpack(app_dir, 'Finalize failed with exception %s', &:compile)
 
