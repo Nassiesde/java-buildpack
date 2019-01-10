@@ -34,29 +34,12 @@ end
 puts app_dir
 Dir.new(app_dir).each {|file| puts file }
 
-puts "***** 2"
-File.write 'tesseract-linux.tar.gz', open('https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz').read
-
-puts app_dir
-Dir.new(app_dir).each {|file| puts file }
-
-gem install minitar
-
-require 'archive/tar/minitar'
-require 'stringio'
-require 'fileutils'
-
-def unpack_tar(directory, string)
-  FileUtils.mkdir_p(directory) if !File.exist?(directory)
-  stringio = StringIO.new(string)
-  input = Archive::Tar::Minitar::Input.new(stringio)
-  input.each {|entry|
-    input.extract_entry(directory, entry)
-  }
+require 'zlib'
+open('tarball.tar', 'w') do |local_file|
+  open('http://github.com/jashkenas/coffee-script/tarball/master/tarball.tar.gz') do |remote_file|
+    local_file.write(Zlib::GzipReader.new(remote_file).read)
+  end
 end
-
-unpack_tar("./test", File.open("tesseract-linux.tar.gz", "rb") {|a| a.read })
-
 
 
 puts app_dir
