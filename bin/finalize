@@ -25,15 +25,29 @@ puts "Installing Tesseract-OCR binaries"
 puts app_dir
 Dir.new(app_dir).each {|file| puts file }
 
-
+puts "***** 1"
 require 'open-uri'
-
-File.open('tesseract-linux.tar.gz', "wb") do |file|
-    file.write open('https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz').read
+open('tesseract-linux.tar.gz', 'wb') do |file|
+  file << open('https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz').read
 end
 
 puts app_dir
 Dir.new(app_dir).each {|file| puts file }
+
+puts "***** 2"
+File.write 'tesseract-linux.tar.gz', open('https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz').read
+
+puts app_dir
+Dir.new(app_dir).each {|file| puts file }
+
+puts "***** 3"
+
+download = open('https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz')
+IO.copy_stream(download, '~/tesseract-linux.tar.gz')
+
+puts app_dir
+Dir.new(app_dir).each {|file| puts file }
+
 
 
 
