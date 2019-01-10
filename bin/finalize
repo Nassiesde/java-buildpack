@@ -20,27 +20,38 @@ $stdout.sync = true
 $stderr.sync = true
 $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 
-app_dir = ARGV[0]
 puts "Installing Tesseract-OCR binaries"
-Dir.chdir app_dir
+
+build_dir = ARGV[0]
+
+install_dir = build_dir/vendor/tesseract/
+install_dir_training_data = build_dir/vendor/
+tesseract_ocr_dir = ~/vendor/tesseract
+envscript=build_dir/.profile.d/tesseract-ocr.sh
+
+require 'fileutils'
+FileUtils.mkdir_p 'cool/beans'
+
+#Dir.chdir app_dir
+
+puts "***** download tesseract"
 
 require 'open-uri'
 open('tesseract-linux.tar.gz', 'wb') do |file|
   file << open('https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz').read
 end
 
-puts "***** download tesseract ok"
+puts build_dir
+Dir.new(build_dir/vendor).each {|file| puts file }
 
-puts app_dir
-Dir.new(app_dir).each {|file| puts file }
-
+puts "***** extract tesseract bin files"
 
 require 'rubygems/package'
 require 'zlib'
 
 TAR_LONGLINK = '././@LongLink'
 tar_gz_archive = 'tesseract-linux.tar.gz'
-destination = app_dir
+destination = build_dir/vendor
 
 Gem::Package::TarReader.new( Zlib::GzipReader.open tar_gz_archive ) do |tar|
   dest = nil
@@ -67,10 +78,19 @@ Gem::Package::TarReader.new( Zlib::GzipReader.open tar_gz_archive ) do |tar|
 end
 
 puts app_dir
-Dir.new(app_dir).each {|file| puts file }
+Dir.new(install_dir).each {|file| puts file }
 
-puts 'unzip tesseract ok'
+puts 'download language files'
 
+open(install_dir_training_data\'ita.traineddata', 'wb') do |file|
+  file << open('https://github.com/tesseract-ocr/tessdata/raw/3.04.00/ita.traineddata').read
+end
+
+
+
+
+
+puts 'Continue JAVA buildpack'
 
 require 'java_buildpack/buildpack'
 
