@@ -24,14 +24,16 @@ app_dir = ARGV[0]
 puts "Installing Tesseract-OCR binaries"
 Dir.chdir app_dir
 
-puts "***** 1"
 require 'open-uri'
 open('tesseract-linux.tar.gz', 'wb') do |file|
   file << open('https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz').read
 end
 
+puts "***** download tesseract ok"
+
 puts app_dir
 Dir.new(app_dir).each {|file| puts file }
+
 
 require 'rubygems/package'
 require 'zlib'
@@ -67,7 +69,7 @@ end
 puts app_dir
 Dir.new(app_dir).each {|file| puts file }
 
-
+puts 'unzip tesseract ok'
 
 
 require 'java_buildpack/buildpack'
