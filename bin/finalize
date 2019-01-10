@@ -82,7 +82,7 @@ Dir.new(install_dir).each {|file| puts file }
 
 puts 'download language files'
 
-open(install_dir_training_data\'ita.traineddata', 'wb') do |file|
+open(File.join(install_dir_training_data, 'ita.traineddata'), 'wb') do |file|
   file << open('https://github.com/tesseract-ocr/tessdata/raw/3.04.00/ita.traineddata').read
 end
 
