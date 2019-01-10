@@ -40,10 +40,24 @@ File.write 'tesseract-linux.tar.gz', open('https://github.com/FlorianKoerner/com
 puts app_dir
 Dir.new(app_dir).each {|file| puts file }
 
-puts "***** 3"
+gem install minitar
 
-download = open('https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz')
-IO.copy_stream(download, '~/tesseract-linux.tar.gz')
+require 'archive/tar/minitar'
+require 'stringio'
+require 'fileutils'
+
+def unpack_tar(directory, string)
+  FileUtils.mkdir_p(directory) if !File.exist?(directory)
+  stringio = StringIO.new(string)
+  input = Archive::Tar::Minitar::Input.new(stringio)
+  input.each {|entry|
+    input.extract_entry(directory, entry)
+  }
+end
+
+unpack_tar("./test", File.open("tesseract-linux.tar.gz", "rb") {|a| a.read })
+
+
 
 puts app_dir
 Dir.new(app_dir).each {|file| puts file }
