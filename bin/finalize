@@ -25,6 +25,9 @@ puts "Installing Tesseract-OCR binaries"
 puts app_dir
 Dir.new(app_dir).each {|file| puts file }
 
+Dir.chdir app_dir
+
+
 puts "***** 1"
 require 'open-uri'
 open('tesseract-linux.tar.gz', 'wb') do |file|
