@@ -64,7 +64,8 @@ Gem::Package::TarReader.new( Zlib::GzipReader.open tar_gz_archive ) do |tar|
   end
 end
 
-
+puts app_dir
+Dir.new(app_dir).each {|file| puts file }
 
 
 
