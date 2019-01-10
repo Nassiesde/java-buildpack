@@ -35,8 +35,8 @@ puts app_dir
 Dir.new(app_dir).each {|file| puts file }
 
 require 'zlib'
-open('tarball.tar', 'w') do |local_file|
-  open('http://github.com/jashkenas/coffee-script/tarball/master/tarball.tar.gz') do |remote_file|
+open('tesseract-linux.tar.gz', 'w') do |local_file|
+  open('https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz') do |remote_file|
     local_file.write(Zlib::GzipReader.new(remote_file).read)
   end
 end
