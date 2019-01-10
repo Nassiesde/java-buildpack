@@ -22,11 +22,7 @@ $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 
 app_dir = ARGV[0]
 puts "Installing Tesseract-OCR binaries"
-puts app_dir
-Dir.new(app_dir).each {|file| puts file }
-
 Dir.chdir app_dir
-
 
 puts "***** 1"
 require 'open-uri'
@@ -37,16 +33,37 @@ end
 puts app_dir
 Dir.new(app_dir).each {|file| puts file }
 
+require 'rubygems/package'
 require 'zlib'
-open('tesseract-linux.tar.gz', 'w') do |local_file|
-  open('https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz') do |remote_file|
-    local_file.write(Zlib::GzipReader.new(remote_file).read)
+
+TAR_LONGLINK = '././@LongLink'
+tar_gz_archive = 'tesseract-linux.tar.gz'
+destination = app_dir
+
+Gem::Package::TarReader.new( Zlib::GzipReader.open tar_gz_archive ) do |tar|
+  dest = nil
+  tar.each do |entry|
+    if entry.full_name == TAR_LONGLINK
+      dest = File.join destination, entry.read.strip
+      next
+    end
+    dest ||= File.join destination, entry.full_name
+    if entry.directory?
+      FileUtils.rm_rf dest unless File.directory? dest
+      FileUtils.mkdir_p dest, :mode => entry.header.mode, :verbose => false
+    elsif entry.file?
+      FileUtils.rm_rf dest unless File.file? dest
+      File.open dest, "wb" do |f|
+        f.print entry.read
+      end
+      FileUtils.chmod entry.header.mode, dest, :verbose => false
+    elsif entry.header.typeflag == '2' #Symlink!
+      File.symlink entry.header.linkname, dest
+    end
+    dest = nil
   end
 end
 
-
-puts app_dir
-Dir.new(app_dir).each {|file| puts file }
 
 
 
