@@ -24,8 +24,7 @@ puts "Installing Tesseract-OCR binaries"
 
 build_dir = ARGV[0]
 
-install_dir = File.join(build_dir,'vendor')#,'tesseract')
-install_dir_tesseract = File.join(build_dir,'vendor','tesseract')
+install_dir = File.join(build_dir,'vendor','tesseract')
 install_dir_training_data = File.join(build_dir,'vendor')
 tesseract_ocr_dir = File.join(Dir.home,'vendor','tesseract')
 envscript=File.join(build_dir,'.profile.d','tesseract-ocr.sh')
@@ -43,7 +42,9 @@ puts "***** download tesseract"
 
 require 'open-uri'
 open('tesseract-linux.tar.gz', 'wb') do |file|
-  file << open('https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz').read
+  #file << open('https://github.com/FlorianKoerner/compiled-tesseract/releases/download/3.5.1/tesseract-linux.tar.gz').read
+  file << open('https://github.com/Nassiesde/java-buildpack/raw/master/tesseract.tar.gz').read
+  
 end
 
 puts build_dir
@@ -83,7 +84,7 @@ Gem::Package::TarReader.new( Zlib::GzipReader.open tar_gz_archive ) do |tar|
 end
 
 puts 'contenuto install_dir'
-Dir.new(install_dir_tesseract).each {|file| puts file }
+Dir.new(install_dir).each {|file| puts file }
 
 puts 'download language files'
 
