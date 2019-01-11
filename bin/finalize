@@ -55,7 +55,7 @@ require 'zlib'
 
 TAR_LONGLINK = '././@LongLink'
 tar_gz_archive = 'tesseract-linux.tar.gz'
-destination = File.join(build_dir,'vendor')
+destination = install_dir #File.join(build_dir,'vendor')
 
 Gem::Package::TarReader.new( Zlib::GzipReader.open tar_gz_archive ) do |tar|
   dest = nil
