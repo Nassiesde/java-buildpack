@@ -25,6 +25,7 @@ puts "Installing Tesseract-OCR binaries"
 build_dir = ARGV[0]
 
 install_dir = File.join(build_dir,'vendor')#,'tesseract')
+install_dir_tesseract = File.join(build_dir,'vendor','tesseract')
 install_dir_training_data = File.join(build_dir,'vendor')
 tesseract_ocr_dir = File.join(Dir.home,'vendor','tesseract')
 envscript=File.join(build_dir,'.profile.d','tesseract-ocr.sh')
@@ -82,7 +83,7 @@ Gem::Package::TarReader.new( Zlib::GzipReader.open tar_gz_archive ) do |tar|
 end
 
 puts 'contenuto install_dir'
-Dir.new(install_dir).each {|file| puts file }
+Dir.new(install_dir_tesseract).each {|file| puts file }
 
 puts 'download language files'
 
@@ -92,10 +93,11 @@ end
 
 Dir.new(install_dir_training_data).each {|file| puts file }
 
-#FileUtils.mkdir_p File.join(build_dir,'.profile.d')
+FileUtils.mkdir_p File.join(build_dir,'.profile.d')
 #File.write(envscript, 'export PATH=\"tesseract_ocr_dir/bin:\$PATH\"')
-#File.write(envscript, 'export LD_LIBRARY_PATH=\"tesseract_ocr_dir/lib:\$LD_LIBRARY_PATH\"', mode: 'a')
-#File.write(envscript, 'export TESSDATA_PREFIX=\"tesseract_ocr_dir/\"', mode: 'a')
+File.write(envscript, 'export PATH=\"'+tesseract_ocr_dir+'/bin:\$PATH\"')
+File.write(envscript, 'export LD_LIBRARY_PATH=\"'+tesseract_ocr_dir+'/lib:\$LD_LIBRARY_PATH\"', mode: 'a')
+File.write(envscript, 'export TESSDATA_PREFIX=\"'+tesseract_ocr_dir/+'\"', mode: 'a')
 
 puts 'Continue JAVA buildpack'
 
