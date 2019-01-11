@@ -27,7 +27,7 @@ build_dir = ARGV[0]
 install_dir = File.join(build_dir,'vendor','tesseract')
 install_dir_training_data = File.join(build_dir,'vendor')
 tesseract_ocr_dir = File.join(Dir.home,'vendor','tesseract')
-#envscript=File.join(build_dir,'.profile.d','tesseract-ocr.sh')
+envscript=File.join(build_dir,'.profile.d','tesseract-ocr.sh')
 
 require 'fileutils'
 FileUtils.mkdir_p install_dir
@@ -86,7 +86,7 @@ open(File.join(install_dir_training_data, 'ita.traineddata'), 'wb') do |file|
   file << open('https://github.com/tesseract-ocr/tessdata/raw/3.04.00/ita.traineddata').read
 end
 
-FileUtils.mkdir_p install_dir$BUILD_DIR/.profile.d
+FileUtils.mkdir_p File.join(build_dir,'.profile.d')
 File.write(envscript, 'export PATH=\"$TESSERACT_OCR_DIR/bin:\$PATH\"')
 File.write(envscript, 'export LD_LIBRARY_PATH=\"$TESSERACT_OCR_DIR/lib:\$LD_LIBRARY_PATH\"', mode: 'a')
 File.write(envscript, 'export TESSDATA_PREFIX=\"$TESSERACT_OCR_DIR/\"', mode: 'a')
