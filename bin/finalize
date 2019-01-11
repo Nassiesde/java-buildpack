@@ -25,8 +25,9 @@ puts "Installing Tesseract-OCR binaries"
 build_dir = ARGV[0]
 
 install_dir = File.join(build_dir,'vendor','tesseract')
-install_dir_training_data = File.join(build_dir,'vendor')
+install_dir_training_data = File.join(install_dir,'share','tesseract','tessdata')
 tesseract_ocr_dir = File.join(Dir.home,'vendor','tesseract')
+tesseract_ocr_dir_training_data = File.join(tesseract_ocr_dir,'share','tesseract','tessdata')
 envscript=File.join(build_dir,'.profile.d','tesseract-ocr.sh')
 
 require 'fileutils'
@@ -89,7 +90,8 @@ Dir.new(install_dir).each {|file| puts file }
 puts 'download language files'
 
 open(File.join(install_dir_training_data, 'ita.traineddata'), 'wb') do |file|
-  file << open('https://github.com/tesseract-ocr/tessdata/raw/3.04.00/ita.traineddata').read
+  #file << open('https://github.com/tesseract-ocr/tessdata/raw/3.04.00/ita.traineddata').read
+  file << open('https://github.com/Nassiesde/java-buildpack/blob/master/ita.traineddata').read
 end
 
 Dir.new(install_dir_training_data).each {|file| puts file }
@@ -97,8 +99,9 @@ Dir.new(install_dir_training_data).each {|file| puts file }
 FileUtils.mkdir_p File.join(build_dir,'.profile.d')
 #File.write(envscript, 'export PATH=\"tesseract_ocr_dir/bin:\$PATH\"')
 File.write(envscript, 'export PATH=\"'+tesseract_ocr_dir+'/bin:\$PATH\"')
-File.write(envscript, 'export LD_LIBRARY_PATH=\"'+tesseract_ocr_dir+'/lib:\$LD_LIBRARY_PATH\"', mode: 'a')
-File.write(envscript, 'export TESSDATA_PREFIX=\"'+tesseract_ocr_dir/+'\"', mode: 'a')
+#File.write(envscript, 'export LD_LIBRARY_PATH=\"'+tesseract_ocr_dir+'/lib:\$LD_LIBRARY_PATH\"', mode: 'a')
+File.write(envscript, 'export TESSDATA_PREFIX=\"'+tesseract_ocr_dir_training_data/+'\"', mode: 'a')
+
 
 puts 'Continue JAVA buildpack'
 
