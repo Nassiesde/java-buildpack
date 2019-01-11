@@ -27,10 +27,10 @@ build_dir = ARGV[0]
 install_dir = build_dir/vendor/tesseract/
 install_dir_training_data = build_dir/vendor/
 tesseract_ocr_dir = ~/vendor/tesseract
-envscript=build_dir/.profile.d/tesseract-ocr.sh
+envscript=File.join(build_dir,'.profile.d','tesseract-ocr.sh')
 
 require 'fileutils'
-FileUtils.mkdir_p 'cool/beans'
+FileUtils.mkdir_p install_dir
 
 #Dir.chdir app_dir
 
@@ -42,7 +42,7 @@ open('tesseract-linux.tar.gz', 'wb') do |file|
 end
 
 puts build_dir
-Dir.new(build_dir/vendor).each {|file| puts file }
+Dir.new(File.join(build_dir,'vendor')).each {|file| puts file }
 
 puts "***** extract tesseract bin files"
 
@@ -51,7 +51,7 @@ require 'zlib'
 
 TAR_LONGLINK = '././@LongLink'
 tar_gz_archive = 'tesseract-linux.tar.gz'
-destination = build_dir/vendor
+destination = File.join(build_dir,'vendor')
 
 Gem::Package::TarReader.new( Zlib::GzipReader.open tar_gz_archive ) do |tar|
   dest = nil
@@ -86,9 +86,10 @@ open(File.join(install_dir_training_data, 'ita.traineddata'), 'wb') do |file|
   file << open('https://github.com/tesseract-ocr/tessdata/raw/3.04.00/ita.traineddata').read
 end
 
-
-
-
+FileUtils.mkdir_p install_dir$BUILD_DIR/.profile.d
+File.write(envscript, 'export PATH=\"$TESSERACT_OCR_DIR/bin:\$PATH\"')
+File.write(envscript, 'export LD_LIBRARY_PATH=\"$TESSERACT_OCR_DIR/lib:\$LD_LIBRARY_PATH\"', mode: 'a')
+File.write(envscript, 'export TESSDATA_PREFIX=\"$TESSERACT_OCR_DIR/\"', mode: 'a')
 
 puts 'Continue JAVA buildpack'
 
