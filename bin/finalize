@@ -24,9 +24,9 @@ puts "Installing Tesseract-OCR binaries"
 
 build_dir = ARGV[0]
 
-install_dir = build_dir/vendor/tesseract/
-install_dir_training_data = build_dir/vendor/
-tesseract_ocr_dir = ~/vendor/tesseract
+install_dir = File.join(build_dir,'vendor','tesseract')
+install_dir_training_data = File.join(build_dir,'vendor')
+tesseract_ocr_dir = File.join(~,'vendor','tesseract')
 envscript=File.join(build_dir,'.profile.d','tesseract-ocr.sh')
 
 require 'fileutils'
