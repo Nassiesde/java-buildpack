@@ -32,6 +32,10 @@ envscript=File.join(build_dir,'.profile.d','tesseract-ocr.sh')
 require 'fileutils'
 FileUtils.mkdir_p install_dir
 
+puts "***** :install_dir"
+puts install_dir
+Dir.new(build_dir).each {|file| puts file }
+
 #Dir.chdir app_dir
 
 puts "***** download tesseract"
