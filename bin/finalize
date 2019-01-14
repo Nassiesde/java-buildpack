@@ -26,7 +26,7 @@ build_dir = ARGV[0]
 
 install_dir = File.join(build_dir,'vendor','tesseract')
 install_dir_training_data = File.join(install_dir,'share','tesseract','tessdata')
-tesseract_ocr_dir = File.join(Dir.home,'vendor','tesseract')
+tesseract_ocr_dir = File.join(Dir.home, 'app', 'vendor','tesseract')
 tesseract_ocr_dir_training_data = File.join(tesseract_ocr_dir,'share','tesseract','tessdata')
 envscript=File.join(build_dir,'.profile.d','tesseract-ocr.sh')
 
