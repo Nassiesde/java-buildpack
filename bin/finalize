@@ -98,11 +98,13 @@ Dir.new(install_dir_training_data).each {|file| puts file }
 
 FileUtils.mkdir_p File.join(build_dir,'.profile.d')
 File.write(envscript, '#!/usr/bin/env bash')
+File.write(envscript, 'echo "**** 1"', mode: 'a')
 puts 'export PATH="'+tesseract_ocr_dir+'/bin":$PATH'
-File.write(envscript, 'export PATH="'+tesseract_ocr_dir+'/bin":$PATH')
+File.write(envscript, 'export PATH="'+tesseract_ocr_dir+'/bin":$PATH', mode: 'a')
+File.write(envscript, 'echo "**** 2"', mode: 'a')
 puts 'export TESSDATA_PREFIX="'+tesseract_ocr_dir_training_data+'/"'
 File.write(envscript, 'export TESSDATA_PREFIX="'+tesseract_ocr_dir_training_data+'/"', mode: 'a')
-
+File.write(envscript, 'echo "**** 3"', mode: 'a')
 
 puts 'Continue JAVA buildpack'
 
