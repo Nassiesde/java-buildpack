@@ -97,7 +97,7 @@ end
 Dir.new(install_dir_training_data).each {|file| puts file }
 
 FileUtils.mkdir_p File.join(build_dir,'.profile.d')
-#File.write(envscript, 'echo "ciao"')
+File.write(envscript, '#!/usr/bin/env bash')
 puts 'export PATH="'+tesseract_ocr_dir+'/bin":\$PATH'
 File.write(envscript, 'export PATH="'+tesseract_ocr_dir+'/bin":\$PATH')
 #File.write(envscript, 'export TESSDATA_PREFIX=\"'+tesseract_ocr_dir_training_data+'/\"', mode: 'a')
